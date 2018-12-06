@@ -8,12 +8,14 @@ set(BuildDir ./bin)
 set(BuildExecutable resource-monitor)
 set(Build ${BuildDir}/${BuildExecutable})
 
-set(Platform ./platform)
-set(LinuxDep ${Platform}/linux)
-set(WinDep ${Platform}/win32)
 set(SourceDir ./src)
+set(Platform ./platform)
+set(WinDep ${Platform}/win32)
+set(LinuxDep ${Platform}/linux)
 
 set(Include ./include)
+
+find_package(Threads REQUIRED)
 
 include_directories(${Build}/ ${Include})
 
@@ -39,3 +41,5 @@ add_executable(${Build}
     ${SourceFiles}
     ${PlatformDepSource}
 )
+
+target_link_libraries(${Build} Threads::Threads)

@@ -123,6 +123,60 @@ depend:
 	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/build
 .PHONY : ./bin/resource-monitor/fast
 
+platform/linux/monitoring/cpu.o: platform/linux/monitoring/cpu.cpp.o
+
+.PHONY : platform/linux/monitoring/cpu.o
+
+# target to build an object file
+platform/linux/monitoring/cpu.cpp.o:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/platform/linux/monitoring/cpu.cpp.o
+.PHONY : platform/linux/monitoring/cpu.cpp.o
+
+platform/linux/monitoring/cpu.i: platform/linux/monitoring/cpu.cpp.i
+
+.PHONY : platform/linux/monitoring/cpu.i
+
+# target to preprocess a source file
+platform/linux/monitoring/cpu.cpp.i:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/platform/linux/monitoring/cpu.cpp.i
+.PHONY : platform/linux/monitoring/cpu.cpp.i
+
+platform/linux/monitoring/cpu.s: platform/linux/monitoring/cpu.cpp.s
+
+.PHONY : platform/linux/monitoring/cpu.s
+
+# target to generate assembly for a file
+platform/linux/monitoring/cpu.cpp.s:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/platform/linux/monitoring/cpu.cpp.s
+.PHONY : platform/linux/monitoring/cpu.cpp.s
+
+src/main.o: src/main.cpp.o
+
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -132,6 +186,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... ./bin/resource-monitor"
 	@echo "... edit_cache"
+	@echo "... platform/linux/monitoring/cpu.o"
+	@echo "... platform/linux/monitoring/cpu.i"
+	@echo "... platform/linux/monitoring/cpu.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 
