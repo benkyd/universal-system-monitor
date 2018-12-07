@@ -2,37 +2,30 @@
 
 #include <atomic>
 #include <thread>
+#include <mutex>
 
 class CPU {
 public:
     CPU();
     
-    std::atomic<int> CPU_PREVIOUS_IDLE;
-    std::atomic<int> CPU_PREVIOUS_TOTAL;
-    std::atomic<int> CPU_IDLE;
-    std::atomic<int> CPU_TOTAL;
+    std::mutex CPU_Mutex;
+    int CPU_PREVIOUS_IDLE;
+    int CPU_PREVIOUS_TOTAL;
+    int CPU_IDLE;
+    int CPU_TOTAL;
 
-    std::atomic<int> UPDATE_INTERVAL; // ms
+    int UPDATE_INTERVAL; // s
 
     void START_CPU_POLLING();
-    static void CPU_POLL();
+    static void CPU_POLL(CPU* cpu);
     void END_CPU_POLLING();
 
     double CPU_PERCENT();
 
-    virtual ~CPU();
+    virtual ~CPU(); 
 private:
     std::thread* m_pollThread;
-    std::atomic<bool> m_isPolling;
+    bool m_isPolling;
 };
 
-static CPU* instance;
-static CPU* GetCPUInstance() {
-    if (instance == (void*)0) {
-        CPU cpu;
-        instance = &cpu;
-        return instance;
-    }
-    return instance;
-}
-
+static CPU* CPU_Instance;

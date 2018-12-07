@@ -15,6 +15,7 @@ set(LinuxDep ${Platform}/linux)
 
 set(Include ./include)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 include_directories(${Build}/ ${Include})
@@ -42,4 +43,6 @@ add_executable(${Build}
     ${PlatformDepSource}
 )
 
+target_link_libraries(${Build} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${Build} pthread)
 target_link_libraries(${Build} Threads::Threads)
