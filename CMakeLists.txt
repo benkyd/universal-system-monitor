@@ -43,6 +43,4 @@ add_executable(${Build}
     ${PlatformDepSource}
 )
 
-target_link_libraries(${Build} ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries(${Build} pthread)
 target_link_libraries(${Build} Threads::Threads)

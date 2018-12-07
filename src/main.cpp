@@ -8,10 +8,8 @@ int main(int argc, char** argv) {
 
     cpu->START_CPU_POLLING();
 
-    usleep(1000000);
     while(1) {
-        std::cout << cpu->CPU_PERCENT() << std::endl;
-
+        std::cout << "TOTAL CPU USAGE: " << cpu->CPU_PERCENT() << std::endl;
         sleep(1);
     }
 }
