@@ -16,17 +16,20 @@ public:
 
     int UPDATE_INTERVAL; // s
 
+    std::vector<std::vector<int>> CPU_PREVIOUS_CORES_WORK_AND_TOTAL;
     std::vector<std::vector<int>> CPU_CORES_WORK_AND_TOTAL;
 
     void START_CPU_POLLING();
     static void CPU_POLL(CPU* cpu);
     void END_CPU_POLLING();
 
-    double CPU_PERCENT();
+    double CPU_PERCENT(int core);
     std::vector<double> CPU_CORE_PERCENT();
 
+    unsigned int CPU_HARDWARE_THREADS = std::thread::hardware_concurrency();
+    
     virtual ~CPU(); 
-private:
+private:        
     std::thread* m_pollThread;
     bool m_isPolling;
 };
