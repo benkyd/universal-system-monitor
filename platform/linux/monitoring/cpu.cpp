@@ -7,20 +7,10 @@
 #include <math.h> 
 
 CPU::CPU() {
+    CPU_HARDWARE_THREADS = std::thread::hardware_concurrency();
     this->UPDATE_INTERVAL = 1000;
     this->m_isPolling = false;
     std::cout << "Number of hardware threads supported: " << CPU_HARDWARE_THREADS << std::endl;
-    for (unsigned int thread; thread < CPU_HARDWARE_THREADS; thread++) {
-        std::vector<int> temp1, temp2;
-        
-        for (int i = 0; i <= 2; i++) {
-            temp1.push_back(0);
-            temp2.push_back(0);
-        }
-
-        CPU_PREVIOUS_CORES_WORK_AND_TOTAL.push_back(temp1);
-        CPU_CORES_WORK_AND_TOTAL.push_back(temp2);
-    }
 }
 
 void CPU::START_CPU_POLLING() {
@@ -46,10 +36,11 @@ void CPU::CPU_POLL(CPU* cpu) {
 
         // READ TOTAL CPU
         unsigned long long luser, nice, system, idle, iowait,
-            irq, softirq;
-        FILE* ProcStat = fopen("/proc/stat", "r");
-        fscanf(ProcStat, "cpu %llu %llu %llu %llu %llu %llu %llu", &luser, 
+            irq, softirq = 0;
+        FILE* ProcStatCPU = fopen("/proc/stat", "r");
+        fscanf(ProcStatCPU, "cpu %llu %llu %llu %llu %llu %llu %llu", &luser, 
             &nice, &system, &idle, &iowait, &irq, &softirq);
+        fclose(ProcStatCPU);
 
         cpu->CPU_Mutex.lock();
 
@@ -62,17 +53,25 @@ void CPU::CPU_POLL(CPU* cpu) {
         cpu->CPU_Mutex.unlock();
         
         for (unsigned int thread = 0; thread < cpu->CPU_HARDWARE_THREADS; thread++) {
+            // READ TOTAL THREAD CPU
             unsigned long long tluser, tnice, tsystem, tidle, tiowait,
-                tirq, tsoftirq;
-            
-            std::stringstream pattern;
-            pattern << "cpu" << thread << " %llu %llu %llu %llu %llu %llu %llu";
+                tirq, tsoftirq = 0;
+            FILE* ProcStatCPUThread = fopen("/proc/stat", "r");
+            // char c = fgetc(ProcStatCPU); 
+            // while (c != -1) { 
+            //     printf ("%c", c); 
+            //     c = fgetc(ProcStatCPU); 
+            // }
+            fscanf(ProcStatCPUThread, "cpu0 %llu %llu %llu %llu %llu %llu %llu", 
+                &tluser, &tnice, &tsystem, &tidle, &tiowait, &tirq, &tsoftirq);
+            fclose(ProcStatCPUThread);
 
-            fscanf(ProcStat, pattern.str().c_str(), &tluser, &tnice, &tsystem, 
-                &tidle, &tiowait, &tirq, &tsoftirq);
+            std::cout << tluser << " " << tnice << " " << tsystem << " "  << tidle 
+                    << " "  << tiowait << " "  << tirq << " "  << tsoftirq << std::endl;
 
             cpu->CPU_Mutex.lock();
 
+            // CALCULATE TOTAL THREAD CPU
             cpu->CPU_PREVIOUS_CORES_WORK_AND_TOTAL[thread][0] = cpu->CPU_CORES_WORK_AND_TOTAL[thread][0];
             cpu->CPU_PREVIOUS_CORES_WORK_AND_TOTAL[thread][1] = cpu->CPU_CORES_WORK_AND_TOTAL[thread][1];
             cpu->CPU_CORES_WORK_AND_TOTAL[thread][0] = tluser + tnice + tsystem + tidle + tiowait + tirq + tsoftirq;
@@ -81,7 +80,6 @@ void CPU::CPU_POLL(CPU* cpu) {
             cpu->CPU_Mutex.unlock();
         }
 
-        fclose(ProcStat);
         sleep(1);
     }
 }
@@ -96,12 +94,12 @@ void CPU::END_CPU_POLLING() {
 }
 
 double CPU::CPU_PERCENT(int core) {
-    core--;
-
-    this->CPU_Mutex.lock();
+    --core;
 
     long double totalOverTime = 0.0;
     long double workOverTime = 0.0;
+    this->CPU_Mutex.lock();
+
     if (core == -1) {
         totalOverTime = this->CPU_PREVIOUS_TOTAL - this->CPU_TOTAL;
         workOverTime = this->CPU_PREVIOUS_WORK - this->CPU_WORK;

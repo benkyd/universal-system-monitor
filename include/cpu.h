@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <thread>
 #include <mutex>
 
@@ -16,8 +17,12 @@ public:
 
     int UPDATE_INTERVAL; // s
 
-    std::vector<std::vector<int>> CPU_PREVIOUS_CORES_WORK_AND_TOTAL;
-    std::vector<std::vector<int>> CPU_CORES_WORK_AND_TOTAL;
+    // int CPU_PREVIOUS_CORES_WORK_AND_TOTAL[2048][8];
+    // int CPU_CORES_WORK_AND_TOTAL[2048][8];
+
+    std::map<int, std::map<int, int>> CPU_PREVIOUS_CORES_WORK_AND_TOTAL;
+    std::map<int, std::map<int, int>> CPU_CORES_WORK_AND_TOTAL;
+    int CPU_HARDWARE_THREADS = std::thread::hardware_concurrency();
 
     void START_CPU_POLLING();
     static void CPU_POLL(CPU* cpu);
@@ -26,8 +31,6 @@ public:
     double CPU_PERCENT(int core);
     std::vector<double> CPU_CORE_PERCENT();
 
-    unsigned int CPU_HARDWARE_THREADS = std::thread::hardware_concurrency();
-    
     virtual ~CPU(); 
 private:        
     std::thread* m_pollThread;
