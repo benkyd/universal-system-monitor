@@ -57,13 +57,8 @@ void CPU::CPU_POLL(CPU* cpu) {
             unsigned long long tluser, tnice, tsystem, tidle, tiowait,
                 tirq, tsoftirq = 0;
             FILE* ProcStatCPUThread = fopen("/proc/stat", "r");
-            // char c = fgetc(ProcStatCPU); 
-            // while (c != -1) { 
-            //     printf ("%c", c); 
-            //     c = fgetc(ProcStatCPU); 
-            // }
-            fscanf(ProcStatCPUThread, "cpu0 %llu %llu %llu %llu %llu %llu %llu", 
-                &tluser, &tnice, &tsystem, &tidle, &tiowait, &tirq, &tsoftirq);
+            fscanf(ProcStatCPUThread, "%*s %llu %llu %llu %llu %llu %llu %llu",
+                        &tluser, &tnice, &tsystem, &tidle, &tiowait, &tirq, &tsoftirq); // WONT WORK
             fclose(ProcStatCPUThread);
 
             std::cout << tluser << " " << tnice << " " << tsystem << " "  << tidle 
