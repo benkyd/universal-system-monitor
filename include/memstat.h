@@ -2,17 +2,24 @@
 
 #include <thread>
 #include <mutex>
+#include <cstring> // For memcpy 
+
+struct MemStat {
+    long double TOTAL_MB;
+    long double FREE_MB;
+    long double SHARED_MB;
+    long double BUFFER_MB;
+    short TOTAL_RUNNING_PROCS;
+};
 
 class Memory {
 public:
     Memory();
 
     std::mutex Memory_Mutex;
-    long double MEMORY_TOTAL_MB;
-    long double MEMORY_FREE_MB;
-    long double MEMORY_AVAILABLE_MB;
-    long double MEMORY_ACTIVE_MB;
-    long double MEMORY_INACTIVE_MB;
+    MemStat* memStat;
+
+    MemStat getMemStat();
 
     int UPDATE_INTERVAL; // ms
 

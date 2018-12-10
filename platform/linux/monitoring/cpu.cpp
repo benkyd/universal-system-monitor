@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <stdlib.h>
 #include <unistd.h>
 #include <math.h> 
 
@@ -20,8 +19,7 @@ void CPU::START_CPU_POLLING() {
     }
     this->m_isPolling = true;
     std::cout << "Starting CPU worker thread" << std::endl;
-    std::thread* t = new std::thread(&CPU::CPU_POLL, this);
-    this->m_pollThread = t; 
+    this->m_pollThread = new std::thread(&CPU::CPU_POLL, this);
 }
 
 void CPU::CPU_POLL(CPU* cpu) {
