@@ -1,19 +1,20 @@
 #include <iostream>
 #include <cpu.h>
+#include <memory.h>
 #include <unistd.h>
 
 int main(int argc, char** argv) {
     CPU* cpu = new CPU();
     CPU_Instance = cpu;
 
+    // Memory* mem = new Memory();
+    // Memory_Instance = mem;
+
     cpu->START_CPU_POLLING();
+    // mem->START_MEMORY_POLLING();
 
     while(1) {
         sleep(1);
-        // for (unsigned int thread = 0; thread < cpu->CPU_HARDWARE_THREADS; thread++) {
-        //     std::cout << "CORE " << thread << " USAGE: " << cpu->CPU_PERCENT(thread) << std::endl;
-        // }
-
         for (unsigned int thread = 0; thread <= cpu->CPU_HARDWARE_THREADS; thread++) {
             std::cout << "CORE " << thread << " USAGE: " << cpu->CPU_PERCENT(thread) << std::endl;
         }

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <vector>
-#include <map>
 #include <thread>
+#include <vector>
 #include <mutex>
+#include <map>
 
 class CPU {
 public:

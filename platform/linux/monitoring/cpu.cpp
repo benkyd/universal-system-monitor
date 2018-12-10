@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h> 
@@ -35,12 +36,16 @@ void CPU::CPU_POLL(CPU* cpu) {
         cpu->CPU_Mutex.unlock();
 
         // READ TOTAL CPU
+        std::vector<std::string> ProcStatLines;
         unsigned long long luser, nice, system, idle, iowait,
             irq, softirq = 0;
-        FILE* ProcStatCPU = fopen("/proc/stat", "r");
-        fscanf(ProcStatCPU, "cpu %llu %llu %llu %llu %llu %llu %llu", &luser, 
+
+        std::ifstream ProcStatFile("/proc/stat");
+        for (std::string str; std::getline(ProcStatFile, str); )
+            ProcStatLines.push_back(str);
+
+        sscanf(ProcStatLines[0].c_str(), "cpu %llu %llu %llu %llu %llu %llu %llu", &luser, 
             &nice, &system, &idle, &iowait, &irq, &softirq);
-        fclose(ProcStatCPU);
 
         cpu->CPU_Mutex.lock();
 
@@ -54,15 +59,12 @@ void CPU::CPU_POLL(CPU* cpu) {
         
         for (unsigned int thread = 0; thread < cpu->CPU_HARDWARE_THREADS; thread++) {
             // READ TOTAL THREAD CPU
+            unsigned int currentThread = thread + 1;
             unsigned long long tluser, tnice, tsystem, tidle, tiowait,
-                tirq, tsoftirq = 0;
-            FILE* ProcStatCPUThread = fopen("/proc/stat", "r");
-            fscanf(ProcStatCPUThread, "%*s %llu %llu %llu %llu %llu %llu %llu",
-                        &tluser, &tnice, &tsystem, &tidle, &tiowait, &tirq, &tsoftirq); // WONT WORK
-            fclose(ProcStatCPUThread);
+                tirq, tsoftirq = 0;[[]]
 
-            std::cout << tluser << " " << tnice << " " << tsystem << " "  << tidle 
-                    << " "  << tiowait << " "  << tirq << " "  << tsoftirq << std::endl;
+            sscanf(ProcStatLines[currentThread].c_str(), "%*s %llu %llu %llu %llu %llu %llu %llu",
+                        &tluser, &tnice, &tsystem, &tidle, &tiowait, &tirq, &tsoftirq);
 
             cpu->CPU_Mutex.lock();
 
