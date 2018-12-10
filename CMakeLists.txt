@@ -18,7 +18,7 @@ set(Include ./include)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-include_directories(${Build}/ ${Include})
+include_directories(${Build} ${Include}/)
 
 if (WIN32)
     file(GLOB_RECURSE PlatformDepSource
@@ -39,8 +39,8 @@ file(GLOB_RECURSE SourceFiles
 )
 
 add_executable(${Build} 
-    ${SourceFiles}
     ${PlatformDepSource}
+    ${SourceFiles}
 )
 
 target_link_libraries(${Build} Threads::Threads)

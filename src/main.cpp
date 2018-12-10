@@ -1,17 +1,18 @@
-#include <iostream>
 #include <cpu.h>
 #include <memory.h>
+
+#include <iostream>
 #include <unistd.h>
 
 int main(int argc, char** argv) {
     CPU* cpu = new CPU();
     CPU_Instance = cpu;
 
-    // Memory* mem = new Memory();
-    // Memory_Instance = mem;
+    Memory* mem = new Memory();
+    Memory_Instance = mem;
 
     cpu->START_CPU_POLLING();
-    // mem->START_MEMORY_POLLING();
+    mem->START_MEMORY_POLLING();
 
     while(1) {
         sleep(1);

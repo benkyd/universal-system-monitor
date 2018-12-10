@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include <thread>
 #include <mutex>
 
@@ -9,14 +8,13 @@ public:
     Memory();
 
     std::mutex Memory_Mutex;
-
     long double MEMORY_TOTAL_MB;
     long double MEMORY_FREE_MB;
     long double MEMORY_AVAILABLE_MB;
     long double MEMORY_ACTIVE_MB;
     long double MEMORY_INACTIVE_MB;
 
-    int UPDATE_INTERVAL; // s
+    int UPDATE_INTERVAL; // ms
 
     void START_MEMORY_POLLING();
     static void MEMORY_POLL(Memory* mem);

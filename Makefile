@@ -150,6 +150,33 @@ platform/linux/monitoring/cpu.cpp.s:
 	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/platform/linux/monitoring/cpu.cpp.s
 .PHONY : platform/linux/monitoring/cpu.cpp.s
 
+platform/linux/monitoring/memory.o: platform/linux/monitoring/memory.cpp.o
+
+.PHONY : platform/linux/monitoring/memory.o
+
+# target to build an object file
+platform/linux/monitoring/memory.cpp.o:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/platform/linux/monitoring/memory.cpp.o
+.PHONY : platform/linux/monitoring/memory.cpp.o
+
+platform/linux/monitoring/memory.i: platform/linux/monitoring/memory.cpp.i
+
+.PHONY : platform/linux/monitoring/memory.i
+
+# target to preprocess a source file
+platform/linux/monitoring/memory.cpp.i:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/platform/linux/monitoring/memory.cpp.i
+.PHONY : platform/linux/monitoring/memory.cpp.i
+
+platform/linux/monitoring/memory.s: platform/linux/monitoring/memory.cpp.s
+
+.PHONY : platform/linux/monitoring/memory.s
+
+# target to generate assembly for a file
+platform/linux/monitoring/memory.cpp.s:
+	$(MAKE) -f CMakeFiles/./bin/resource-monitor.dir/build.make CMakeFiles/./bin/resource-monitor.dir/platform/linux/monitoring/memory.cpp.s
+.PHONY : platform/linux/monitoring/memory.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -189,6 +216,9 @@ help:
 	@echo "... platform/linux/monitoring/cpu.o"
 	@echo "... platform/linux/monitoring/cpu.i"
 	@echo "... platform/linux/monitoring/cpu.s"
+	@echo "... platform/linux/monitoring/memory.o"
+	@echo "... platform/linux/monitoring/memory.i"
+	@echo "... platform/linux/monitoring/memory.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -15,10 +15,7 @@ public:
     int CPU_WORK;
     int CPU_TOTAL;
 
-    int UPDATE_INTERVAL; // s
-
-    // int CPU_PREVIOUS_CORES_WORK_AND_TOTAL[2048][8];
-    // int CPU_CORES_WORK_AND_TOTAL[2048][8];
+    int UPDATE_INTERVAL; // ms
 
     std::map<int, std::map<int, int>> CPU_PREVIOUS_CORES_WORK_AND_TOTAL;
     std::map<int, std::map<int, int>> CPU_CORES_WORK_AND_TOTAL;
