@@ -8,4 +8,25 @@ x -> complete
 [ ] 
 
 **TODO**
-[ ]
+[ ] API
+    [x] CPU header
+        [x] Linux implimentation
+        [ ] Windows implimentation
+    [x] MemStat header
+        [x] Linux implimentation
+        [ ] Windows implimentation
+    [ ] Fan speed header
+        [ ] Linux implimentation
+        [ ] Windows implimentation
+    [ ] GPU header
+        [ ] Linux implimentation
+        [ ] Windows implimentation
+    [ ] Sys header - Should include all system shit and also include the rest of the headers
+        [ ] Linux implimentation
+        [ ] Windows implimentation
+[ ] Easily expandable api for pheripherals
+    [ ] Todo: write TODO
+
+[ ] Cross platform UI API for all platforms
+    [ ] Needs to be easily scalable for future OS's
+    [ ] Maybe use an open source open
