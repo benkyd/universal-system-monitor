@@ -1,5 +1,5 @@
-#include <cpu.h>
-#include <memstat.h>
+#include <sys.h>
+#include <common.h>
 
 #include <iostream>
 #include <unistd.h>
@@ -13,6 +13,11 @@ int main(int argc, char** argv) {
 
     cpu->START_CPU_POLLING();
     mem->START_MEMORY_POLLING();
+
+    std::vector<std::string> lscpu = exec("lscpu");
+    for (unsigned int i = 0; i < lscpu.size(); i++) {
+        std::cout << lscpu[i] << std::endl;
+    }
 
     while(1) {
         sleep(1);
