@@ -3,8 +3,9 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <unistd.h>
 
-std::vector<std::string> exec(std::string command) {
+std::vector<std::string> execcommand(std::string command) {
    char buffer[128];
     std::vector<std::string> result;
     FILE* pipe = popen(command.c_str(), "r");

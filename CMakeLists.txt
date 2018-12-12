@@ -3,6 +3,7 @@ project(crumpet-engine)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} CMakeFiles/)
 cmake_policy(SET CMP0037 OLD)
+set(CMAKE_BUILD_TYPE Debug)
 
 set(BuildDir ./bin)
 set(BuildExecutable resource-monitor)

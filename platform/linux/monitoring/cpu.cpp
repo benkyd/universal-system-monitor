@@ -1,5 +1,6 @@
 #include <cpu.h>
 
+#include <common.h>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -7,10 +8,20 @@
 #include <math.h> 
 
 CPU::CPU() {
-    CPU_HARDWARE_THREADS = std::thread::hardware_concurrency();
+    this->CPU_HARDWARE_THREADS = std::thread::hardware_concurrency();
     this->UPDATE_INTERVAL = 1000;
     this->m_isPolling = false;
+    this->cpuStat = new CPUStat();
+    this->cpuStat->HARDWARE_THREADS = this->CPU_HARDWARE_THREADS;
     std::cout << "Number of hardware threads supported: " << CPU_HARDWARE_THREADS << std::endl;
+}
+
+CPUStat CPU::getCPUStat() {
+    CPUStat temp;
+    this->CPU_Mutex.lock();
+    memcpy(&temp, this->cpuStat, sizeof(CPUStat));
+    this->CPU_Mutex.unlock();
+    return temp;
 }
 
 void CPU::START_CPU_POLLING() {
@@ -71,7 +82,28 @@ void CPU::CPU_POLL(CPU* cpu) {
             cpu->CPU_PREVIOUS_CORES_WORK_AND_TOTAL[thread][1] = cpu->CPU_CORES_WORK_AND_TOTAL[thread][1];
             cpu->CPU_CORES_WORK_AND_TOTAL[thread][0] = tluser + tnice + tsystem + tidle + tiowait + tirq + tsoftirq;
             cpu->CPU_CORES_WORK_AND_TOTAL[thread][1] = tluser + tnice + tsystem;
+            
+            cpu->CPU_Mutex.unlock();
+        }
+        cpu->CPU_Mutex.lock();
 
+        long double totalOverTime = cpu->CPU_PREVIOUS_TOTAL - cpu->CPU_TOTAL;
+        long double workOverTime = cpu->CPU_PREVIOUS_WORK - cpu->CPU_WORK;
+        cpu->cpuStat->PERCENT_USAGE = (workOverTime / totalOverTime) * 100;
+
+        cpu->CPU_Mutex.unlock();
+
+        std::vector<std::string> lscpu = execcommand("lscpu");
+        for (unsigned int i = 0; i < lscpu.size(); i++) {
+            cpu->CPU_Mutex.lock();
+
+            if (lscpu[i].find("Architecture:")) {
+                std::string architecture(10, ' ');
+                sscanf(lscpu[i].c_str(), "Architecture:        %*s", &architecture[0], architecture.size());
+                cpu->cpuStat->ARCHITECTURE = architecture;
+                std::cout << architecture;
+            }
+            
             cpu->CPU_Mutex.unlock();
         }
 
@@ -112,6 +144,10 @@ double CPU::CPU_PERCENT(int core) {
 
 std::vector<double> CPU::CPU_CORE_PERCENT() {
     std::vector<double> output;
+
+    // TODO: Return a list of percents, one index is one hardware 
+    //thread, index 0 is total percent
+
     return output;    
 }
 

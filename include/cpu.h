@@ -4,12 +4,26 @@
 #include <vector>
 #include <mutex>
 #include <map>
+#include <cstring> // For memcpy 
+
+struct CPUStat {
+    std::string ARCHITECTURE;
+    std::string MODEL_NAME;
+    unsigned short HARDWARE_THREADS;
+    long double MAX_FREQ;
+    long double MIN_FREQ;
+    long double FREQ;
+    long double PERCENT_USAGE;
+};
 
 class CPU {
 public:
     CPU();
     
     std::mutex CPU_Mutex;
+    CPUStat* cpuStat;
+    CPUStat getCPUStat();
+
     int CPU_PREVIOUS_WORK;
     int CPU_PREVIOUS_TOTAL;
     int CPU_WORK;
@@ -27,6 +41,7 @@ public:
 
     double CPU_PERCENT(int core);
     std::vector<double> CPU_CORE_PERCENT();
+
 
     virtual ~CPU(); 
 private:        
