@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <regex>
 #include <unistd.h>
 #include <math.h> 
 
@@ -95,15 +96,24 @@ void CPU::CPU_POLL(CPU* cpu) {
 
         std::vector<std::string> lscpu = execcommand("lscpu");
         for (unsigned int i = 0; i < lscpu.size(); i++) {
+            std::regex architecture("Architecture.*?((?:[a-z][a-z0-9_]*))");
+            std::regex maxMHz      ("CPU max MHz.*?((?:[0-9].*))");
+            std::regex minMHz      ("CPU min MHz.*?((?:[0-9].*))");
+            std::regex MHz         ("CPU MHz.*?((?:[0-9].*))");
+            std::smatch m;
+
             cpu->CPU_Mutex.lock();
 
-            if (lscpu[i].find("Architecture:")) {
-                std::string architecture(10, ' ');
-                sscanf(lscpu[i].c_str(), "Architecture:        %*s", &architecture[0], architecture.size());
-                cpu->cpuStat->ARCHITECTURE = architecture;
-                std::cout << architecture;
-            }
-            
+            if (std::regex_search(lscpu[i], m, architecture)) {
+                cpu->cpuStat->ARCHITECTURE = m[1].str();
+            } else if (std::regex_search(lscpu[i], m, maxMHz)) {
+                cpu->cpuStat->MAX_FREQ = std::stod(m[1].str());
+            } else if (std::regex_search(lscpu[i], m, minMHz)) {
+                cpu->cpuStat->MIN_FREQ = std::stod(m[1].str());
+            } else if (std::regex_search(lscpu[i], m, MHz)) {
+                cpu->cpuStat->FREQ = std::stod(m[1].str());
+            }                
+
             cpu->CPU_Mutex.unlock();
         }
 
