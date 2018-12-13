@@ -14,6 +14,25 @@ CPU::CPU() {
     this->m_isPolling = false;
     this->cpuStat = new CPUStat();
     this->cpuStat->HARDWARE_THREADS = this->CPU_HARDWARE_THREADS;
+
+    std::vector<std::string> lscpu = execcommand("lscpu");
+    for (unsigned int i = 0; i < lscpu.size(); i++) {
+        std::regex architecture("Architecture.*?((?:[a-z][a-z0-9_]*))");
+        std::regex maxMHz      ("CPU max MHz.*?((?:[0-9].*))");
+        std::regex minMHz      ("CPU min MHz.*?((?:[0-9].*))");
+        std::regex MHz         ("CPU MHz.*?((?:[0-9].*))");
+        std::smatch m;
+
+        if (std::regex_search(lscpu[i], m, architecture)) {
+            this->cpuStat->ARCHITECTURE = m[1].str();
+        } else if (std::regex_search(lscpu[i], m, maxMHz)) {
+            this->cpuStat->MAX_FREQ = std::stod(m[1].str());
+        } else if (std::regex_search(lscpu[i], m, minMHz)) {
+            this->cpuStat->MIN_FREQ = std::stod(m[1].str());
+        } else if (std::regex_search(lscpu[i], m, MHz)) {
+            this->cpuStat->FREQ = std::stod(m[1].str());
+        }                
+    }
     std::cout << "Number of hardware threads supported: " << CPU_HARDWARE_THREADS << std::endl;
 }
 
@@ -96,25 +115,13 @@ void CPU::CPU_POLL(CPU* cpu) {
 
         std::vector<std::string> lscpu = execcommand("lscpu");
         for (unsigned int i = 0; i < lscpu.size(); i++) {
-            std::regex architecture("Architecture.*?((?:[a-z][a-z0-9_]*))");
-            std::regex maxMHz      ("CPU max MHz.*?((?:[0-9].*))");
-            std::regex minMHz      ("CPU min MHz.*?((?:[0-9].*))");
-            std::regex MHz         ("CPU MHz.*?((?:[0-9].*))");
+            std::regex MHz("CPU MHz.*?((?:[0-9].*))");
             std::smatch m;
-
-            cpu->CPU_Mutex.lock();
-
-            if (std::regex_search(lscpu[i], m, architecture)) {
-                cpu->cpuStat->ARCHITECTURE = m[1].str();
-            } else if (std::regex_search(lscpu[i], m, maxMHz)) {
-                cpu->cpuStat->MAX_FREQ = std::stod(m[1].str());
-            } else if (std::regex_search(lscpu[i], m, minMHz)) {
-                cpu->cpuStat->MIN_FREQ = std::stod(m[1].str());
-            } else if (std::regex_search(lscpu[i], m, MHz)) {
+            if (std::regex_search(lscpu[i], m, MHz)) {
+                cpu->CPU_Mutex.lock();
                 cpu->cpuStat->FREQ = std::stod(m[1].str());
+                cpu->CPU_Mutex.unlock();
             }                
-
-            cpu->CPU_Mutex.unlock();
         }
 
         sleep(1);

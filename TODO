@@ -8,7 +8,8 @@ x -> complete
 [ ] 
 
 **TODO**
-[ ] API
+[ ] Optimise cpu.cpp in /platform/linux/monitoring
+[ ] System informaton API
     [x] CPU header
         [x] Linux implimentation
         [ ] Windows implimentation
