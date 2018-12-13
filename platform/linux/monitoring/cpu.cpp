@@ -113,6 +113,7 @@ void CPU::CPU_POLL(CPU* cpu) {
 
         cpu->CPU_Mutex.unlock();
 
+        // GET CURRENT CLOCK SPEED FROM COMMAND OUTPUT FROM LSCPU
         std::vector<std::string> lscpu = execcommand("lscpu");
         for (unsigned int i = 0; i < lscpu.size(); i++) {
             std::regex MHz("CPU MHz.*?((?:[0-9].*))");
