@@ -39,6 +39,11 @@
         "vector": "cpp",
         "functional": "cpp",
         "mutex": "cpp",
-        "sstream": "cpp"
-    }
+        "sstream": "cpp",
+        "cstring": "cpp",
+        "optional": "cpp",
+        "bitset": "cpp",
+        "deque": "cpp"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Disabled"
 }
