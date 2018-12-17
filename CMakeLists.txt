@@ -25,6 +25,7 @@ if (WIN32)
     file(GLOB_RECURSE PlatformDepSource
         ${WinDep}/monitoring/*.cpp
         ${WinDep}/ui/*.cpp
+        ${WinDep}/*.cpp
     )
 endif (WIN32)
 
@@ -32,6 +33,7 @@ if (UNIX)
     file(GLOB_RECURSE PlatformDepSource
         ${LinuxDep}/monitoring/*.cpp
         ${LinuxDep}/ui/*.cpp
+        ${LinuxDep}/*.cpp
     )
 endif (UNIX)
 
