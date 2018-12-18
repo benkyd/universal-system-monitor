@@ -10,9 +10,7 @@ set(BuildExecutable resource-monitor)
 set(Build ${BuildDir}/${BuildExecutable})
 
 set(SourceDir ./src)
-set(Platform ./platform)
-set(WinDep ${Platform}/win32)
-set(LinuxDep ${Platform}/linux)
+set(LibSysSource ./libsys)
 
 set(Include ./include)
 
@@ -21,28 +19,16 @@ find_package(Threads REQUIRED)
 
 include_directories(${Build} ${Include}/)
 
-if (WIN32)
-    file(GLOB_RECURSE PlatformDepSource
-        ${WinDep}/monitoring/*.cpp
-        ${WinDep}/ui/*.cpp
-        ${WinDep}/*.cpp
-    )
-endif (WIN32)
-
-if (UNIX)
-    file(GLOB_RECURSE PlatformDepSource
-        ${LinuxDep}/monitoring/*.cpp
-        ${LinuxDep}/ui/*.cpp
-        ${LinuxDep}/*.cpp
-    )
-endif (UNIX)
+file(GLOB_RECURSE LibSys
+    ${LibSysSource}/*.cpp
+)
 
 file(GLOB_RECURSE SourceFiles
     ${SourceDir}/*.cpp
 )
 
 add_executable(${Build} 
-    ${PlatformDepSource}
+    ${LibSys}
     ${SourceFiles}
 )
 
