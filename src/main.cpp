@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     sleep(1);
 
     std::cout << std::endl;
-    Sys* sys = System_Instance->getSystemSpec();
+    Sys sys = System_Instance->getSystemSpec();
 
     while(1) {
         sleep(1);

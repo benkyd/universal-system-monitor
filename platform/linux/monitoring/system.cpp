@@ -14,8 +14,10 @@ System::System() {
     
 }
 
-Sys* System::getSystemSpec() {
-    return m_Sys;
+Sys System::getSystemSpec() {
+    Sys temp;
+    memcpy(&temp, m_Sys, sizeof(Sys));
+    return temp;
 }
 
 System::~System() {

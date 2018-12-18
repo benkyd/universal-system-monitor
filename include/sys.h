@@ -14,7 +14,7 @@ struct Sys {
 class System {
 public:
     System();
-    Sys* getSystemSpec();
+    Sys getSystemSpec();
     virtual ~System();
 private:
     Sys* m_Sys;
