@@ -9,7 +9,7 @@ x -> complete
 
 **TODO**
 [ ] Optimise cpu.cpp in /platform/linux/monitoring
-[ ] System informaton API
+[ ] libsys
     [x] CPU header
         [x] Linux implimentation
         [ ] Windows implimentation
