@@ -42,11 +42,11 @@ public:
     double CPU_PERCENT(int core);
     std::vector<double> CPU_CORE_PERCENT();
 
+    bool m_isPolling;
 
     virtual ~CPU(); 
 private:        
     std::thread* m_pollThread;
-    bool m_isPolling;
 };
 
 static CPU* CPU_Instance;

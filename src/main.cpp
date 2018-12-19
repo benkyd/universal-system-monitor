@@ -4,14 +4,11 @@
 #include <unistd.h>
 
 int main(int argc, char** argv) {
-    CPU_Instance = new CPU();
-    Memory_Instance = new Memory();
-    System_Instance = new System();
+    initialize_libsys();
+        sleep(1);
 
     CPU_Instance->START_CPU_POLLING();
     Memory_Instance->START_MEMORY_POLLING();
-
-    sleep(1);
 
     std::cout << std::endl;
     Sys sys = System_Instance->getSystemSpec();

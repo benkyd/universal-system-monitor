@@ -27,10 +27,11 @@ public:
     static void MEMORY_POLL(Memory* mem);
     void END_MEMORY_POLLING();
 
+    bool m_isPolling;
+    
     virtual ~Memory();
 private:
     std::thread* m_pollThread;
-    bool m_isPolling;
 };
 
 static Memory* Memory_Instance;
