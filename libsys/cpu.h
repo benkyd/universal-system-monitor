@@ -19,7 +19,8 @@ struct CPUStat {
 class CPU {
 public:
     CPU();
-    
+    static CPU* Create();
+
     std::mutex CPU_Mutex;
     CPUStat* cpuStat;
     CPUStat getCPUStat();
@@ -50,3 +51,9 @@ private:
 };
 
 static CPU* CPU_Instance;
+
+class CPUFactory {
+public:
+    
+private:
+};

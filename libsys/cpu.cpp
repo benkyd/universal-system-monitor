@@ -170,7 +170,10 @@ std::vector<double> CPU::CPU_CORE_PERCENT() {
 }
 
 CPU::~CPU() {
-    this->m_isPolling = false;
-    m_pollThread->join();
+    std::cout << "CPU Destructed" << std::endl;
+    if (this->m_isPolling) {
+        this->m_isPolling = false;
+        m_pollThread->join();
+    }
     delete m_pollThread;
 }

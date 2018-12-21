@@ -84,7 +84,10 @@ void Memory::END_MEMORY_POLLING() {
 }
 
 Memory::~Memory() {
-    this->m_isPolling = false;
-    m_pollThread->join();
+    std::cout << "Memory Destructed" << std::endl;
+    if (this->m_isPolling) {
+        m_pollThread->join();
+        this->m_isPolling = false;
+    }
     delete m_pollThread;
 }
